@@ -1,8 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { SignInDto } from './dto/signIn.dto';
 import { checkPassword } from './common/auth';
-import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +18,7 @@ export class AuthService {
     const isMatch = await checkPassword(password, user.password);
 
     if (!isMatch) {
-      throw new UnauthorizedException('Usuario no autorizado');
+      throw new ConflictException('Contraseña incorrecta');
     }
 
     const payload = { sub: user.id };
