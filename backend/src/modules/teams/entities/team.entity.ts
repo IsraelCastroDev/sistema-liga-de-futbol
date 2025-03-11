@@ -1,4 +1,11 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { Player } from '../../players/entities/player.entity';
+import {
+  Column,
+  Entity,
+  Index,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('teams')
 @Index(['name'], { unique: true })
@@ -20,4 +27,7 @@ export class Team {
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   stadium?: string;
+
+  @OneToMany(() => Player, (player) => player.team)
+  players: Player[];
 }

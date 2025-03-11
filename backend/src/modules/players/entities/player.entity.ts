@@ -1,6 +1,13 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { DominantFoot } from '../enums/dominantFoot.enum';
 import { PlayerPosition } from '../enums/playerPositions.enum';
+import { Team } from '../../teams/entities/team.entity';
 
 @Entity('players')
 @Index(['dni'], { unique: true })
@@ -37,4 +44,10 @@ export class Player {
 
   @Column({ type: 'int', nullable: true })
   assits?: number;
+
+  @ManyToOne(() => Team, (team) => team.players, { onDelete: 'CASCADE' })
+  team: Team;
+
+  @Column({ type: 'int' })
+  teamId: number;
 }
