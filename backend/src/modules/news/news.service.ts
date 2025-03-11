@@ -1,26 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { News } from './entities/news.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class NewsService {
-  create(createNewsDto: CreateNewsDto) {
-    return 'This action adds a new news';
+  constructor(
+    @InjectRepository(News) private readonly newsRepository: Repository<News>,
+  ) {}
+
+  async create(createNewsDto: CreateNewsDto) {
+    const newPost = this.newsRepository.create(createNewsDto);
+    await this.newsRepository.save(newPost);
+
+    return { message: 'Noticia creada correctamente', statusCode: 201 };
   }
 
-  findAll() {
-    return `This action returns all news`;
+  async findAll() {
+    const [news, count] = await this.newsRepository.findAndCount();
+    return { news, count };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} news`;
+  async findOne(id: number) {
+    const newPost = await this.newsRepository.findOne({ where: { id } });
+    if (!newPost) {
+      throw new NotFoundException('Noticia no encontrada');
+    }
+
+    return newPost;
   }
 
-  update(id: number, updateNewsDto: UpdateNewsDto) {
-    return `This action updates a #${id} news`;
+  async update(id: number, updateNewsDto: UpdateNewsDto) {
+    const newPost = await this.findOne(id);
+    Object.assign(newPost, updateNewsDto);
+
+    return { message: 'Noticia actualizada correctamente', statusCode: 200 };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} news`;
+  async remove(id: number) {
+    const newPost = await this.findOne(id);
+    await this.newsRepository.remove(newPost);
+    return { message: 'Noticia eliminada correctamente', statusCode: 200 };
   }
 }
