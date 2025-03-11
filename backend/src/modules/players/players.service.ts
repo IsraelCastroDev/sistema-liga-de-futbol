@@ -2,12 +2,13 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
+import { Player } from './entities/player.entity';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Player } from './entities/player.entity';
-import { QueryFailedError, Repository } from 'typeorm';
 import { TypeORMError } from '../../common/types/error.type';
 
 @Injectable()
@@ -37,19 +38,31 @@ export class PlayersService {
     }
   }
 
-  findAll() {
-    return `This action returns all players`;
+  async findAll() {
+    const [players, count] = await this.playerRepository.findAndCount();
+    return { players, count };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} player`;
+  async findOne(id: number) {
+    const player = await this.playerRepository.findOne({ where: { id } });
+    if (!player) {
+      throw new NotFoundException('Futbolista no encontrado');
+    }
+
+    return player;
   }
 
-  update(id: number, updatePlayerDto: UpdatePlayerDto) {
-    return `This action updates a #${id} player`;
+  async update(id: number, updatePlayerDto: UpdatePlayerDto) {
+    const player = await this.findOne(id);
+    Object.assign(player, updatePlayerDto);
+    await this.playerRepository.save(player);
+
+    return { message: 'Gutbolista actualizado correctamente', statusCode: 200 };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} player`;
+  async remove(id: number) {
+    const player = await this.findOne(id);
+    await this.playerRepository.remove(player);
+    return { message: 'Futbolista eliminado correctamente', statusCode: 200 };
   }
 }
