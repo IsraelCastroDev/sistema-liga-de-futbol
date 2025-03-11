@@ -24,7 +24,7 @@ export class Player {
   position: PlayerPosition;
 
   @Column({ type: 'enum', enum: DominantFoot })
-  dominanFoot: DominantFoot;
+  dominantFoot: DominantFoot;
 
   @Column({ type: 'decimal' })
   height: number;
