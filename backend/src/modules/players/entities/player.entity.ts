@@ -43,7 +43,7 @@ export class Player {
   goals?: number;
 
   @Column({ type: 'int', nullable: true })
-  assits?: number;
+  assists?: number;
 
   @ManyToOne(() => Team, (team) => team.players, { onDelete: 'CASCADE' })
   team: Team;

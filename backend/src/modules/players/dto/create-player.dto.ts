@@ -52,4 +52,7 @@ export class CreatePlayerDto {
   @IsOptional()
   @IsInt({ message: 'Número de asistencias inválido, debe ser un entero' })
   assists?: number;
+
+  @IsInt({ message: 'Id de equipo (teamId) inválido' })
+  teamId: number;
 }
