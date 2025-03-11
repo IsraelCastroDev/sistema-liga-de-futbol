@@ -1,14 +1,18 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import { DominantFoot } from '../enums/dominantFoot.enum';
 import { PlayerPosition } from '../enums/playerPositions.enum';
 
 @Entity('players')
+@Index(['dni'], { unique: true })
 export class Player {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'varchar', length: 60 })
   name: string;
+
+  @Column({ type: 'varchar', length: 8 })
+  dni: string;
 
   @Column({ type: 'varchar' })
   country: string;

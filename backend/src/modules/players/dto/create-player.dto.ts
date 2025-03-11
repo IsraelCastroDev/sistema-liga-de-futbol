@@ -6,6 +6,7 @@ import {
   IsNumber,
   IsString,
   IsDateString,
+  Matches,
 } from 'class-validator';
 import { DominantFoot } from '../enums/dominantFoot.enum';
 import { PlayerPosition } from '../enums/playerPositions.enum';
@@ -14,6 +15,12 @@ export class CreatePlayerDto {
   @IsNotEmpty({ message: 'El nombre del futbolista es obligatorio' })
   @IsString({ message: 'El nombre del futbolista es inválido' })
   name: string;
+
+  @IsNotEmpty({ message: 'El DNI del futbolista es obligatorio' })
+  @Matches(/^\d{8}$/, {
+    message: 'El DNI debe tener exactamente 8 dígitos numéricos',
+  })
+  dni: string;
 
   @IsNotEmpty({ message: 'El nombre del país es obligatorio' })
   @IsString({ message: 'El nombre del país es inválido' })
