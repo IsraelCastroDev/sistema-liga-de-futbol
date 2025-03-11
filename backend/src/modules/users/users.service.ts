@@ -11,12 +11,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { hashPassword } from '../auth/common/auth';
-
-type TypeORMError = {
-  driverError: {
-    code: string;
-  };
-} & Error;
+import { TypeORMError } from '../../common/types/error.type';
 
 @Injectable()
 export class UsersService {

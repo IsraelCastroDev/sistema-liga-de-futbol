@@ -8,12 +8,7 @@ import { UpdatePlayerDto } from './dto/update-player.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Player } from './entities/player.entity';
 import { QueryFailedError, Repository } from 'typeorm';
-
-type TypeORMError = {
-  driverError: {
-    code: string;
-  };
-} & Error;
+import { TypeORMError } from '../../common/types/error.type';
 
 @Injectable()
 export class PlayersService {
