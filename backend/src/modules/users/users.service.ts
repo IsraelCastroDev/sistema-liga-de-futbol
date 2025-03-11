@@ -74,7 +74,10 @@ export class UsersService {
     return { message: 'Usuario actualizado correctamente', statusCode: 200 };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    const user = await this.findOne(id);
+    await this.userRepository.remove(user);
+
+    return { message: 'Usuario eliminado correctamente', statusCode: 200 };
   }
 }
