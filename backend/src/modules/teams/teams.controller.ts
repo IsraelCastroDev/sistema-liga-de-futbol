@@ -38,11 +38,15 @@ export class TeamsController {
   }
 
   @Patch(':id')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   update(@Param('id') id: string, @Body() updateTeamDto: UpdateTeamDto) {
     return this.teamsService.update(+id, updateTeamDto);
   }
 
   @Delete(':id')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   remove(@Param('id') id: string) {
     return this.teamsService.remove(+id);
   }
