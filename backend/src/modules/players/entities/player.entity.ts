@@ -1,5 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { DominantFoot } from '../enums/dominantFoot.enum';
+import { PlayerPosition } from '../enums/playerPositions.enum';
 
 @Entity('players')
 export class Player {
@@ -15,8 +16,8 @@ export class Player {
   @Column({ type: 'date' })
   birthdate: string;
 
-  @Column({ type: 'varchar', length: 50 })
-  position: string;
+  @Column({ type: 'enum', enum: PlayerPosition })
+  position: PlayerPosition;
 
   @Column({ type: 'enum', enum: DominantFoot })
   dominanFoot: DominantFoot;
