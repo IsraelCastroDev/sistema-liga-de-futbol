@@ -10,7 +10,7 @@ export class News {
   title: string;
 
   @Column({ type: 'text' })
-  text: string;
+  content: string;
 
   @Column({ type: 'varchar', length: 255 })
   coverImage: string;
