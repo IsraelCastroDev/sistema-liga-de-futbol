@@ -2,6 +2,7 @@ import { Facebook } from "@components/icons/Facebook";
 import { Instagram } from "@components/icons/Instagram";
 import { YouTube } from "@components/icons/Youtube";
 import { Icon } from "@components/header/Icon";
+import HeaderAuth from "./HeaderAuth";
 
 export function Header() {
   const year = new Date().getFullYear();
@@ -25,11 +26,37 @@ export function Header() {
               <YouTube className="fill-black" />
             </Icon>
           </div>
+
+          <HeaderAuth />
         </div>
       </div>
 
       <header>
-        <h1>Liga Distrital de Monsefú {year}</h1>
+        <div className="flex items-center justify-between px-10 py-5 shadow">
+          <h1 className="text-2xl font-semibold">
+            Liga Distrital de Monsefú {year}
+          </h1>
+
+          <nav>
+            <ul className="flex items-center gap-x-4">
+              <li>
+                <a href="#">Clubes</a>
+              </li>
+              <li>
+                <a href="#">Jugadores</a>
+              </li>
+              <li>
+                <a href="#">Tabla de posiciones</a>
+              </li>
+              <li>
+                <a href="#">Fixture</a>
+              </li>
+              <li>
+                <a href="#">Noticias</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </header>
     </>
   );
